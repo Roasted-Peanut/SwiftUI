@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  FirstSwift
+
+  Created by TCOM on 07/08/2023.
+  
+*/
+"ContenView.WelcomeMessage" = "Xin chào, %@!";
+"Login.UsernameField.Title" = "Email của bạn";
+"Login.PasswordField.Title" = "Mật khẩu";
+"Login.LoginButton.Title" = "Đăng nhập";
+"Login.Email" = "Email";
+"Login.Phone" = "Sử dụng số điện thoại";
+"Login.Forgot" = "Quên mật khẩu?";
+"Login.NotAccount" = "Bạn chưa có tài khoản?";
+"Login.Register" = "Đăng ký";
