@@ -64,19 +64,18 @@ struct LoginScreen: View {
                     }
                     VStack {
                         Button(
-                            action: viewModel.login,
+                            action: loginView,
                             label: {
                                 LabelView(configurations: Configuration(
                                     title: "Login.LoginButton.Title",
                                     size: 16, fontType: .bold,
                                     foregroundColor: .white
                                 ))
+                                .frame(maxWidth: .infinity, minHeight: 42)
+                                .background(Color("mainColor"))
+                                .cornerRadius(24)
                             }
                         )
-                        .frame(maxWidth: .infinity, minHeight: 42)
-                        .foregroundColor(Color("FFF"))
-                        .background(Color("mainColor"))
-                        .cornerRadius(24)
                     }
                     Divider()
                     LabelView(configurations: Configuration(
@@ -112,6 +111,14 @@ struct LoginScreen: View {
             }.padding(.vertical, 20)
         }
         .ignoresSafeArea()
+    }
+    
+    func loginView() {
+        viewModel.login(username: userName, password: password) { success in
+            print(success)
+        } _: { err in
+            print(err)
+        }
     }
 }
 

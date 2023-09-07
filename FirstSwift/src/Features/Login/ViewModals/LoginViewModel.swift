@@ -6,18 +6,19 @@
 //
 
 import Foundation
+import Moya
+
 class LoginViewModel: ObservableObject {
-    @Published var username: String = ""
-    @Published var password: String = ""
-    func login() {
-        LoginAction(
-            parameters: LoginRequest(
-                username: username,
-                password: password
-            )
-        ).call {res in
-            print("login success \(res)")
-            // login successful, navigate to the Home screen
+    let service = ManagerService()
+    func login(username: String, password: String, _ complection: @escaping ((LoginResponse) -> Void), _ fail: @escaping ((LoginError) -> Void)) {
+        service.requestAPI(.login(username: username, password: password), type: LoginResponse.self) { response in
+            if response.status == 1 {
+                
+            } else {
+                
+            }
+        } onFailed: { error in
+            print(error.localizedDescription)
         }
     }
 }

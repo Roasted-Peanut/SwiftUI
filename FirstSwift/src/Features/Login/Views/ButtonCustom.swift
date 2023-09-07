@@ -17,22 +17,23 @@ struct ButtonCustom: View {
     
     var body: some View {
         Button(
-            
             action: handle,
             label: {
-                Image(buttonModel.imageName)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .padding(.horizontal, 5)
-                Text(buttonModel.title.localized)
-                    .font(.custom(buttonModel.fontType, size: CGFloat(buttonModel.fontSize)))
-                    .foregroundColor(buttonModel.foregroundColor)
+                HStack {
+                    Image(buttonModel.imageName)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .padding(.horizontal, 5)
+                    Text(buttonModel.title.localized)
+                        .font(.custom(buttonModel.fontType, size: CGFloat(buttonModel.fontSize)))
+                        .foregroundColor(buttonModel.foregroundColor)
+                }
+                .frame(maxWidth: .infinity, minHeight: 42)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 50)
+                        .stroke(Color.white, lineWidth: 1)
+                )
             }
-        )
-        .frame(maxWidth: .infinity, minHeight: 42)
-        .overlay(
-            RoundedRectangle(cornerRadius: 50)
-                .stroke(Color.white, lineWidth: 1)
         )
     }
 }

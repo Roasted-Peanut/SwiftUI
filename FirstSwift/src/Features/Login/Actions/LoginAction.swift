@@ -6,45 +6,73 @@
 //
 
 import Foundation
-struct LoginAction {
-    var parameters: LoginRequest
-    func call(completion: @escaping (LoginResponse) -> Void) {
-        let scheme: String = "https"
-        let host: String = "jdvtwynql2.execute-api.ap-southeast-1.amazonaws.com"
-        let path = "/sit/customeracct/account-mgmt-service/api/customeracct/login"
-        var componets = URLComponents()
-        componets.scheme = scheme
-        componets.host = host
-        componets.path = path
-        guard let url = componets.url else {
-            return
+import Moya
+
+// Khai báo key enum
+public enum APIService {
+    // 1 Khai báo verify key nếu có
+    static private let publicKey = "YOUR PUBLIC KEY"
+    static private let privateKey = "YOUR PRIVATE KEY"
+    
+    // 2 định nghĩa case actions
+    case login(username: String, password: String)
+    case singin
+}
+
+// config env api
+
+// extension sử dụng cho việc call api
+extension APIService: TargetType {
+    // 1 config URL
+    public var baseURL: URL {
+        return URL(string: Constanst.apiBaseUrl)!
+    }
+    
+    // 2 config path cho từng case action
+    public var path: String {
+        switch self {
+        case .login: return "/login"
+        case .singin: return "/singin"
         }
-        var request = URLRequest(url: url)
-        request.httpMethod = "post"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        do {
-            request.httpBody = try JSONEncoder().encode(parameters)
-        } catch {
-            // error: Unable to encode request parameter
+    }
+    
+    // 3 Xác định method post | get | put ...
+    public var method: Moya.Method {
+        switch self {
+        case .login, .singin:
+            return .post
+            //        default: return .get
         }
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
-                    let response = try JSONDecoder().decode(LoginResponse.self, from: data)
-                    print("login error:  \(response)")
-//                    completion(nil)
-                } else {
-                    let response = try JSONDecoder().decode(LoginResponse.self, from: data)
-                    completion(response)
-                }
-            } catch {
-                print("error: \(error)")
-            }
+    }
+    
+    // 4 sample data option
+    public var sampleData: Data {
+        return Data()
+    }
+    
+    // 5 Thực thi các case actions
+    public var task: Task {
+        switch self {
+        case let .login(username, password):
+            return .requestParameters(
+                parameters: ["username": username, "password": password],
+                encoding: JSONEncoding.default
+            )
+        case .singin:
+            return .requestPlain
         }
-        task.resume()
+    }
+    
+    // 6 config header
+    public var headers: [String: String]? {
+        return ["Content-Type": "application/json"]
+    }
+    
+    // 7
+    public var validationType: ValidationType {
+        return .successCodes
     }
 }
+
+class ManagerService: BaseManager<APIService> {}
+

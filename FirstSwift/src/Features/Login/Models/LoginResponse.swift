@@ -13,7 +13,7 @@ struct LoginResponse: Codable {
     let status: Int?
 }
 
-struct LoginError {
+struct LoginError: Codable {
     let status: Int
     let message, data: String
 }

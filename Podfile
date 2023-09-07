@@ -11,5 +11,8 @@ target 'FirstSwift' do
 #  pod 'SwiftLint'
   # Dimiss Keyboard
   pod 'IQKeyboardManagerSwift'
+  
+  # Moya - lib handle call api
+  pod 'Moya', '~> 15.0'
 
 end
