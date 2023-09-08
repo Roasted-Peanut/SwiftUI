@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LoginScreen: View {
+    
+    @EnvironmentObject var appRouter: AppRouter
     @ObservedObject var viewModel: LoginViewModel = LoginViewModel()
     @State var userName: String = ""
     @State var password: String = ""
@@ -115,9 +117,11 @@ struct LoginScreen: View {
     
     func loginView() {
         viewModel.login(username: userName, password: password) { success in
-            print(success)
+            if(success.data?.status == 200){
+                appRouter.state = .home
+            }
         } _: { err in
-            print(err)
+            print("loginView \(err)")
         }
     }
 }
