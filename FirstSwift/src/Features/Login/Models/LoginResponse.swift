@@ -13,11 +13,6 @@ struct LoginResponse: Codable {
     let status: Int?
 }
 
-struct LoginError: Codable {
-    let status: Int
-    let message, data: String
-}
-
 struct DataResponse: Codable {
     let accessToken, refreshToken, idToken: String?
     let fullName: String?
